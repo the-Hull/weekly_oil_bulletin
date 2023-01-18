@@ -137,6 +137,34 @@ pdf_or_xlsx <- function(str){
 
 }
 
+make_log_mask <- function(wobs, logs, verbose = FALSE){
+
+  `%nin%` <- Negate(`%in%`)
+
+
+
+  if(nrow(logs) == 0){
+
+    mask <- !logical(nrow(wobs))
+
+  } else {
+
+    mask <- wobs[['url']] %nin% logs[['url']]
+
+  }
+
+  if(verbose){
+    message(sprintf("Found %d wob's for download\n", length(mask)))
+  }
+
+  return(mask)
+
+}
+
+
+make_date <- function(x){
+  return(strptime(x, "%d/%m/%Y"))
+}
 
 # procedure ---------------------------------------------------------------
 
@@ -162,3 +190,21 @@ pdf_or_xlsx <- function(str){
 #   )
 #
 # wobs <- read_wob_list(res$path_file)
+# log <- wobs[0, ]
+# log$download_date <- character(0)
+# log$in_db <- logical(0)
+# write.table(log, "./doc/log/log.csv", row.names = FALSE, col.names = TRUE, sep = ",")
+#
+# make_log_mask(wobs, "./doc/log/log.csv", verbose = TRUE)
+#
+#
+#
+# update_log <- function(path_dir_data, path_file_db, path_log){
+#
+#
+#
+#
+#
+# }
+#
+#
