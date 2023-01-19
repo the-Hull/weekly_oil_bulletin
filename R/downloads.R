@@ -33,8 +33,7 @@ download_wobs <- function(wobs, logs,   path_data = "./data/raw"){
 
   fails <- list()
 
-  # for(idx in seq_len(nrow(wobs))){
-  for(idx in 1:3){
+  for(idx in seq_len(nrow(wobs))){
 
 
     file_name <- basename(wobs[['url']][idx])
@@ -142,7 +141,11 @@ read_wob_list <- function(path_file){
 
 
 
-make_db <- function(path_db, logs){
+make_db <- function(path_dir_db, logs){
+
+  path_db_bin <- file.path(path_dir_db, "wob_full.rds")
+  path_db_csv <- file.path(path_dir_db, "wob_full.csv")
+
 
   stopifnot('No entries in logs yet.' = nrow(logs) > 0)
 
@@ -155,6 +158,18 @@ make_db <- function(path_db, logs){
 
   db <- vector('list', nrow(wobs_to_db))
 
+  coltypes <- c(
+    "date",
+    "text",
+    "text",
+    "text",
+    "text",
+    "text",
+    "text",
+    "text",
+    "text"
+  )
+
   for(idx in seq_len(nrow(wobs_to_db))){
 
     # check if file exists, if not, clear log position
@@ -164,7 +179,20 @@ make_db <- function(path_db, logs){
 
     } else {
 
-      db[[idx]] <- readxl::read_excel(path = wobs_to_db[idx, 'path_file'])
+      db[[idx]] <- readxl::read_excel(
+        path = wobs_to_db[idx, 'path_file'],
+        col_types = coltypes,
+        col_names = TRUE,
+        na = c("N.A", "N/A"))[-c(122,123), ]
+
+      # remove , and force numeric for the last three columns
+      db[[idx]][,7:9] <- apply(
+        db[[idx]][,7:9],
+        MARGIN = 2,
+        FUN = function(x) as.numeric(gsub("[,]", "", x))
+      )
+
+
 
       wobs_to_db[idx, 'in_db'] <- TRUE
 
@@ -175,21 +203,38 @@ make_db <- function(path_db, logs){
 
   db <- do.call(rbind, db)
 
-  if(!file.exists(path_db)){
+  if(!file.exists(path_db_csv)){
+
+    # delim
     write.table(
       db,
       path_db,
       col.names = TRUE,
       row.names = FALSE,
-      sep = ",")
-  } else {
+      sep = ";")
+
+
+
+  } else if(file.exists(path_db_csv)){
     write.table(
       db,
       path_db,
       col.names = FALSE,
       row.names = FALSE,
-      sep = ",",
+      sep = ";",
       append = TRUE)
+
+  }
+
+  if(!file.exists(path_db_bin)){
+
+    # binary
+    saveRDS(db, path_db_bin)
+  } else if(file.exists(path_db_bin)){
+
+    db <- rbind(readRDS(path_db_bin), db)
+    saveRDS(db, path_db_bin)
+
   }
 
   logs[db_mask, ] <- wobs_to_db
