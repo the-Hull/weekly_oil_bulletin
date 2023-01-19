@@ -4,7 +4,7 @@ source("./R/downloads.R")
 
 path_log <- "./doc/log/log.csv"
 url_wob_list <- "https://ec.europa.eu/energy/observatory/reports/List-of-WOB.pdf"
-path_db <- "./data/db/wob_full.csv"
+path_dir_db <- "./data/db/"
 
 # current wob list -------------------------------------------------------
 
@@ -28,7 +28,7 @@ logs <- download_wobs(wobs = wobs, logs = logs,   path_data = "./data/raw")
 
 
 # write db  -------------------------------------------------------------
-logs <- make_db(path_db, logs)
+logs <- make_db(path_dir_db, logs)
 
 
 # db checks!
