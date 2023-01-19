@@ -72,7 +72,7 @@ download_wobs <- function(wobs, logs,   path_data = "./data/raw"){
         wobs[idx, c("bulletin", "ind", "values","url")]
 
       log_row[1, c("download_date")] <-
-        Sys.Date()
+        as.character(Sys.Date())
       log_row[1, c("in_db")] <-
         c(FALSE)
       log_row[1, c("path_file")] <- path_file
@@ -208,7 +208,7 @@ make_db <- function(path_dir_db, logs){
     # delim
     write.table(
       db,
-      path_db,
+      path_db_csv,
       col.names = TRUE,
       row.names = FALSE,
       sep = ";")
@@ -218,7 +218,7 @@ make_db <- function(path_dir_db, logs){
   } else if(file.exists(path_db_csv)){
     write.table(
       db,
-      path_db,
+      path_db_csv,
       col.names = FALSE,
       row.names = FALSE,
       sep = ";",
@@ -262,7 +262,7 @@ init_logs <- function(path_log){
   } else {
     message(sprintf("Log already exists in %s. Loading\n", path_log))
     log <- read.csv(path_log)
-    log[['download_date']] <- as.Date(log[['download_date']])
+    # log[['download_date']] <- as.Date(log[['download_date']])
 
   }
   return(log)
