@@ -49,6 +49,12 @@ jobs:
           key: ${{ steps.get-version.outputs.os-version }}-${{ steps.get-version.outputs.r-version }}-${{ inputs.cache-version }}-${{ hashFiles('renv.lock') }}
           restore-keys: ${{ steps.get-version.outputs.os-version }}-${{ steps.get-version.outputs.r-version }}-${{inputs.cache-version }}-
 
+      - name: renv restore
+        run: |
+          renv::restore()
+        shell: Rscript {0}
+
+
       - name: Run updates
         run: |
           source("script/download_wobs.R")
