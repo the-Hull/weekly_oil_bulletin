@@ -10,7 +10,7 @@ Both files have identical contents.
 
 ## Method
 
-The bulletin is released as a PDF file containing a list of weekly bulletins.
+The bulletin is released as a [PDF file](https://ec.europa.eu/energy/observatory/reports/List-of-WOB.pdf) containing a list of prices (links to `xls` or `xlsx` files).
 Based on the PDF and publishing dates, download links for individual bulletins are created, downloaded and re-formatted for storing in the database.
 A central log file tracks the status of downloads and data base creation, and is updated on each run.
 
