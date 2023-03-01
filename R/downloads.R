@@ -21,6 +21,10 @@ get_wob_list <- function(url, path_download = tempdir()){
 
 download_wobs <- function(wobs, logs,   path_data = "./data/raw"){
 
+  if(!file.exists(path_data)){
+    dir.create(recursive = TRUE)
+  }
+
 
 
   # non-downloaded data from logs
@@ -51,7 +55,7 @@ download_wobs <- function(wobs, logs,   path_data = "./data/raw"){
       )
 
       if(dl_status > 0){
-        fails <- append(fails, list(url = wobs[['url']][idx]), status = dl_status)
+        fails <- append(fails, list(url = wobs[['url']][idx], status = dl_status))
         message(sprintf("Download for File %s failed, going to next entry\n", file_name))
         next
 
