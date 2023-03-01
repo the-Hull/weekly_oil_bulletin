@@ -22,7 +22,7 @@ get_wob_list <- function(url, path_download = tempdir()){
 download_wobs <- function(wobs, logs,   path_data = "./data/raw"){
 
   if(!file.exists(path_data)){
-    dir.create(recursive = TRUE)
+    dir.create(path_data, recursive = TRUE)
   }
 
 
