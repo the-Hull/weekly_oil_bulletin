@@ -1,3 +1,5 @@
+[![UpdateDB](https://github.com/the-Hull/weekly_oil_bulletin/actions/workflows/update_db.yaml/badge.svg)](https://github.com/the-Hull/weekly_oil_bulletin/actions/workflows/update_db.yaml)
+
 # Weekly Oil Bulletin Database
 
 This repository contains the collated price data of petroleum products across EU countries and the UK, which is published in the Weekly Oil Bulletin through the European Commission.  
