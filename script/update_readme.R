@@ -1,3 +1,8 @@
+library(glue)
+library(knitr)
+
+
+readme_text <- glue::glue("
 [![UpdateDB](https://github.com/the-Hull/weekly_oil_bulletin/actions/workflows/update_db.yaml/badge.svg)](https://github.com/the-Hull/weekly_oil_bulletin/actions/workflows/update_db.yaml)
 
 # Weekly Oil Bulletin Database
@@ -18,5 +23,9 @@ A central log file tracks the status of downloads and data base creation, and is
 
 ## Latest update:
 
-Date: 02 March, 2023 at 13:54
+Date: {format(Sys.time(), \"%d %B, %Y at %H:%M\")}
 
+")
+
+
+writeLines(readme_text, "README.md")

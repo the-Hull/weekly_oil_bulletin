@@ -65,6 +65,11 @@ jobs:
           source("script/download_wobs.R")
         shell: Rscript {0}
 
+      - name: Update Readme
+        run: |
+          source("script/update_readme.R")
+        shell: Rscript {0}
+
 
       - name: Commit and push changes
         run: |
