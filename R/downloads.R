@@ -158,7 +158,20 @@ make_db <- function(path_dir_db, logs){
   db_mask <- (is.na(logs[['in_db']]) | !logs[['in_db']]) &
     (!is.na(logs[['path_file']]) | nchar(logs[['path_file']]) > 0)
 
+
+
   wobs_to_db <- logs[db_mask, ]
+
+  print(wobs_to_db)
+
+
+  if(nrow(wobs_to_db) < 1) {
+
+    message("No new data to append.")
+
+    return(logs)
+
+  }
 
   db <- vector('list', nrow(wobs_to_db))
 
@@ -183,11 +196,20 @@ make_db <- function(path_dir_db, logs){
 
     } else {
 
-      db[[idx]] <- readxl::read_excel(
+      dbfill <- readxl::read_excel(
         path = wobs_to_db[idx, 'path_file'],
         col_types = coltypes,
         col_names = TRUE,
-        na = c("N.A", "N/A"))[-c(122,123), ]
+        na = c("N.A", "N/A"))
+
+      db[[idx]] <- dbfill[!is.na(dbfill[["Prices in force on"]]), ]
+
+      #
+      # db[[idx]] <- readxl::read_excel(
+      #   path = wobs_to_db[idx, 'path_file'],
+      #   col_types = coltypes,
+      #   col_names = TRUE,
+      #   na = c("N.A", "N/A"))[-c(122,123), ]
 
       # remove , and force numeric for the last three columns
       db[[idx]][,7:9] <- apply(
@@ -207,6 +229,8 @@ make_db <- function(path_dir_db, logs){
 
   db <- do.call(rbind, db)
 
+  message(sprintf('Appending %.0f rows to DB', nrow(db)))
+
   if(!file.exists(path_db_csv)){
 
     # delim
@@ -223,7 +247,8 @@ make_db <- function(path_dir_db, logs){
     write.table(
       db,
       path_db_csv,
-      col.names = FALSE,
+      col.names = FALSE
+      ,
       row.names = FALSE,
       sep = ";",
       append = TRUE)
@@ -243,8 +268,8 @@ make_db <- function(path_dir_db, logs){
 
   logs[db_mask, ] <- wobs_to_db
 
-  return(logs)
 
+  logs
 
 }
 
@@ -283,13 +308,14 @@ update_logs <- function(logs, path_log){
       row.names = FALSE,
       sep = ",")
   } else {
+    message("Overwriting existing log.")
     write.table(
       logs,
       path_log,
       col.names = FALSE,
       row.names = FALSE,
       sep = ",",
-      append = TRUE)
+      append = FALSE)
   }
 
 }
