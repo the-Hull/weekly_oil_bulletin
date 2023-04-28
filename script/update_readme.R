@@ -25,6 +25,11 @@ A central log file tracks the status of downloads and data base creation, and is
 
 Date: {format(Sys.time(), \"%d %B, %Y at %H:%M\")}
 
+## First look:
+
+![German Oil Bulletin Prices](https://github.com/the-hull/weekly_oil_bulletin/blob/main/fig/wob_germany.png?raw=true)
+
+
 ")
 
 
