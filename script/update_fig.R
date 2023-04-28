@@ -1,7 +1,7 @@
 wob_full <- readRDS("data/db/wob_full.rds")
 
 
-wob_de <- subset(wob_full, `Country EU Code` == "DE")[ ,c("Prices in force on", "Product Name", "Weekly price with taxes")]
+wob_de <- subset(wob_full, `Country EU Code` == "DE")[ ,c("Prices in force on", "Product Name", "Weekly price with taxes", "Prices Unit")]
 yrange <- range(wob_de$`Weekly price with taxes`, na.rm = TRUE)
 ylim <- c(0, ceiling(yrange[2] * 10 ^ -floor(log10(yrange[2])) * 2) / 2 * 10 ^ floor(log10(yrange[2])))
 
@@ -37,7 +37,16 @@ lapply(seq_along(wob_de)[-1],
       lty = x)
   })
 
-legend(x = "topleft", legend = names(wob_de), col = 1:4, lty = 1:4, bty = "n")
+legend(
+  x = "topleft",
+  legend = sprintf(
+    "%s per %s",
+    names(wob_de),
+    sapply(wob_de, function(x) unique(x[["Prices Unit"]]))
+    ),
+  col = seq_along(wob_de),
+  lty = seq_along(wob_de),
+  bty = "n")
 
 
 
