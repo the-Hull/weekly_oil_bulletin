@@ -18,5 +18,10 @@ A central log file tracks the status of downloads and data base creation, and is
 
 ## Latest update:
 
-Date: 28 April, 2023 at 08:29
+Date: 28 April, 2023 at 09:24
+
+## First look:
+
+![German Oil Bulletin Prices](https://github.com/the-hull/weekly_oil_bulletin/blob/main/fig/wob_germany.png?raw=true)
+
 
