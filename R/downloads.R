@@ -162,7 +162,6 @@ make_db <- function(path_dir_db, logs){
 
   wobs_to_db <- logs[db_mask, ]
 
-  print(wobs_to_db)
 
 
   if(nrow(wobs_to_db) < 1) {
@@ -312,7 +311,7 @@ update_logs <- function(logs, path_log){
     write.table(
       logs,
       path_log,
-      col.names = FALSE,
+      col.names = TRUE,
       row.names = FALSE,
       sep = ",",
       append = FALSE)
