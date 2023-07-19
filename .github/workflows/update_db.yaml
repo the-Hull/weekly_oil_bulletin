@@ -43,8 +43,8 @@ jobs:
       - name: Get R and OS version
         id: get-version
         run: |
-          cat("##[set-output name=os-version;]", sessionInfo()$running, "\n", sep = "")
-          cat("##[set-output name=r-version;]", R.Version()$version.string, sep = "")
+          cat(sprintf("os-version=%s", sessionInfo()$running)) >> $GITHUB_OUTPUT
+          cat(sprintf("r-version=%s, R.Version()$version.string)) >> $GITHUB_OUTPUT
         shell: Rscript {0}
 
       - name: Restore Renv package cache
