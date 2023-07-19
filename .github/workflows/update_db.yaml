@@ -44,7 +44,7 @@ jobs:
         id: get-version
         run: |
           cat(sprintf("os-version=%s", sessionInfo()$running)) >> $GITHUB_OUTPUT
-          cat(sprintf("r-version=%s, R.Version()$version.string)) >> $GITHUB_OUTPUT
+          cat(sprintf("r-version=%s", R.Version()$version.string)) >> $GITHUB_OUTPUT
         shell: Rscript {0}
 
       - name: Restore Renv package cache
