@@ -18,7 +18,7 @@ A central log file tracks the status of downloads and data base creation, and is
 
 ## Latest update:
 
-Date: 13 February, 2024 at 16:06
+Date: 20 February, 2024 at 16:05
 
 ## First look:
 
